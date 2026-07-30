@@ -2,7 +2,9 @@
 
 > A Python engine that decomposes double-entry bookkeeping data into single-entry format for management accounting
 
+
 [日本語の案内は後半にあります / Japanese description follows below]
+
 
 ## Why can't management accounting be automated?
 
