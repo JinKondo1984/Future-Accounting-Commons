@@ -23,11 +23,12 @@ FAC (Future Accounting Commons) format deconstructs 2D double-entry bookkeeping 
 | 1 | `date` | String | `YYYY-MM-DD` (Transaction or forecast date) |
 | 2 | `account_large` | String | Large Category: `Revenue` / `Cost` / `HR_Expense` / `Operating_Expense` / `Non_Operating` / `Asset` / `Liability` |
 | 3 | `account_middle` | String | Middle Category: `Sales` / `Rent` / `Accounts_Receivable` / etc. |
-| 4 | `amount` | Float | **Tax-excluded for PL**, **Tax-included for CF**. (Positive = Inflow, Negative = Outflow) |
-| 5 | `cost_type` | String | CVP breakdown: `Fixed_Cost` / `Variable_Cost` / `N/A` |
-| 6 | `cf_type` | String | Cash Flow breakdown: `Operating_CF` / `Investing_CF` / `Financial_CF` / `N/A` |
-| 7 | `dept_original` | String | The original department name from the raw accounting software. |
-| 8 | `status` | String | Data state: `Actual` / `Budget` / `Forecast` |
+| 4 | `account_small` | String | Small Category: `Supplementary subject` /  etc. |
+| 5 | `amount` | Float | **Tax-excluded for PL**, **Tax-included for CF**. (Positive = Inflow, Negative = Outflow) |
+| 6 | `cost_type` | String | CVP breakdown: `Fixed_Cost` / `Variable_Cost` / `N/A` |
+| 7 | `cf_type` | String | Cash Flow breakdown: `Operating_CF` / `Investing_CF` / `Financial_CF` / `N/A` |
+| 8 | `dept_original` | String | The original department name from the raw accounting software. |
+| 9 | `status` | String | Data state: `Actual` / `Budget` / `Forecast` |
 
 ### 📌 Version Control Policy
 - **Semantic Versioning (e.g., Ver. 1.0.0):** Major changes to columns or definitions will trigger a major version bump. Minor additions (e.g., adding subcategories or tags) will bump the minor version.
