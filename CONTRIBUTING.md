@@ -77,13 +77,13 @@ pytest
 1. **Start a discussion** in [GitHub Discussions](../../discussions), under the "Ideas" category. Describe the use case and the problem you're trying to solve — not just the column you want to add.
 2. If the idea gains traction, it will be **formalized as an Issue** labeled `format-proposal`, summarizing the discussion and the concrete proposed change.
 3. The community and maintainers discuss the proposal on the Issue. Because backward compatibility is a core principle from v1.0.0 onward, proposals are evaluated primarily as **additive (MINOR) changes**.
-4. Once consensus is reached, the change is merged into [`fac_format.md`](fac_format.md) and released under the next MINOR version.
+4. Once consensus is reached, the change is merged into [`docs/fac_format.md`](docs/fac_format.md) and released under the next MINOR version.
 
 **JA**
 1. まず[GitHub Discussions](../../discussions)の「Ideas」カテゴリで議論を始めてください。追加したいカラムそのものではなく、解決したいユースケース・課題を説明してください。
 2. 議論が深まったら、`format-proposal`ラベル付きの**Issueとして正式化**します。
 3. Issue上でコミュニティとメンテナーが議論します。v1.0.0以降は後方互換性の維持が原則のため、提案は基本的に**追加的な変更(MINOR)**として評価されます。
-4. 合意が形成されたら、[`fac_format.md`](fac_format.md)に反映し、次のMINORバージョンとしてリリースします。
+4. 合意が形成されたら、[`docs/fac_format.md`](docs/fac_format.md)に反映し、次のMINORバージョンとしてリリースします。
 
 **EN:** Note: proposals that would require a breaking (MAJOR) change are held to a much higher bar, given the project's stated goal of long-term stability.
 
