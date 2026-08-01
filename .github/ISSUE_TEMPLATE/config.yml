@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Discord Community / Discordコミュニティ
+    url: https://discord.gg/WvCYQgm83z
+    about: For quick questions or informal discussion before opening an Issue. / Issueを立てる前の簡単な質問・雑談はこちら
+  - name: GitHub Discussions
+    url: https://github.com/JinKondo1984/Future-Accounting-Commons/discussions
+    about: For open-ended ideas and FAC Format proposal discussions. / 自由な議論やFACフォーマット提案の議論はこちら
