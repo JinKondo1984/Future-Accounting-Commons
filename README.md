@@ -69,11 +69,11 @@ Future Accounting Commonsは、Pythonで開発されたコミュニティ主導�
 
 **EN:** FAC (Future Accounting Commons) Format is the standardized single-entry data specification at the core of this project. It follows Semantic Versioning, and from v1.0.0 onward, backward compatibility is maintained as a principle — since the fundamental metrics of management accounting have remained largely unchanged for nearly a century, version changes are expected to be additive (new columns), not breaking.
 
-Full specification: [`format.md`](format.md)
+Full specification: [`fac_format.md`](fac_format.md)
 
 **JA:** FAC(Future Accounting Commons)フォーマットは、本プロジェクトの根幹となる標準化された単式データ仕様です。セマンティックバージョニングに従い、v1.0.0以降は原則として後方互換性を維持します。管理会計の基本指標はこの100年近く大きく変わっていないため、バージョン変更は主にカラムの追加(非破壊的変更)を想定しています。
 
-詳細な仕様:[`format.md`](format.md)
+詳細な仕様:[`fac_format.md`](fac_format.md)
 
 ---
 
