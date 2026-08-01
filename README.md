@@ -15,7 +15,7 @@ Future Accounting Commons is a community-driven engine, built in Python, that de
 
 Future Accounting Commonsは、Pythonで開発されたコミュニティ主導のエンジンです。複式簿記データを、管理会計にすぐ使える標準化された単式データへと一発で分解します。
 
-「正しい数字は、企業経営を良くすることができる」
+「正しい数字は、企業経営をもっと良くすることができる」
 ---
 
 ## What it does / できること
