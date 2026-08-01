@@ -1,5 +1,7 @@
 # Future Accounting Commons/未来会計コモンズ
 
+[![Discord](https://img.shields.io/discord/1532994257835528323?label=Discord&logo=discord&logoColor=white)](https://discord.gg/WvCYQgm83z)
+
 > A Python engine that decomposes double-entry bookkeeping data into single-entry format for management accounting
 > 複式簿記データを、管理会計に適した単式データ(FACフォーマット)に分解するPythonエンジン
 > 
