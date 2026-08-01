@@ -1,69 +1,111 @@
 # Future Accounting Commons
 
 > A Python engine that decomposes double-entry bookkeeping data into single-entry format for management accounting
+> 複式簿記データを、管理会計に適した単式データ(FACフォーマット)に分解するPythonエンジン
 
+---
 
-[日本語の案内は後半にあります / Japanese description follows below]
+## Why can't management accounting be automated? / なぜ企業の管理会計は自動化できないのか?
 
-
-## Why can't management accounting be automated?
-
-Because the data coming out of accounting software is still shaped like double-entry bookkeeping.
+**EN:** Because the data coming out of accounting software is still shaped like double-entry bookkeeping.
 
 Future Accounting Commons is a community-driven engine, built in Python, that decomposes double-entry data into a standardized single-entry format — ready for management accounting, in one step.
 
----
+**JA:** それは、会計ソフトから出力されるデータが「複式簿記の形」のままだからです。
 
-## 📊 FAC Format Specifications (Ver.0.9.1)
-FAC (Future Accounting Commons) format deconstructs 2D double-entry bookkeeping data into a unified, 1D transactional database optimized for data analytics. 
-*Positive values indicate revenue/cash-in, while negative values indicate expenses/cash-out.*
-
-| # | Column Name | Data Type | Description / Sample Values |
-| :--- | :--- | :--- | :--- |
-| 1 | `date` | String | `YYYY-MM-DD` (Transaction or forecast date) |
-| 2 | `account_large` | String | Large Category: `Revenue` / `Cost` / `HR_Expense` / `Operating_Expense` / `Non_Operating` / `Asset` / `Liability` |
-| 3 | `account_middle` | String | Middle Category: `Sales` / `Rent` / `Accounts_Receivable` / etc. |
-| 4 | `account_small` | String | Small Category: `Supplementary subject` /  etc. |
-| 5 | `amount` | Float | **Tax-excluded for PL**, **Tax-included for CF**. (Positive = Inflow, Negative = Outflow) |
-| 6 | `cost_type` | String | CVP breakdown: `Fixed_Cost` / `Variable_Cost` / `N/A` |
-| 7 | `cf_type` | String | Cash Flow breakdown: `Operating_CF` / `Investing_CF` / `Financial_CF` / `N/A` |
-| 8 | `dept_original` | String | The original department name from the raw accounting software. |
-| 9 | `status` | String | Data state: `Actual` / `Budget` / `Forecast` |
-
-### 📌 Version Control Policy
-- **Semantic Versioning (e.g., Ver. 1.0.0):** Major changes to columns or definitions will trigger a major version bump. Minor additions (e.g., adding subcategories or tags) will bump the minor version.
-- All versions and specifications will be managed via GitHub Releases and the main branch documentation.
+Future Accounting Commonsは、Pythonで開発されたコミュニティ主導のエンジンです。複式簿記データを、管理会計にすぐ使える標準化された単式データへと一発で分解します。
 
 ---
 
-## 💡 プロジェクトの理念（Japanese）
-「なぜ、企業の管理会計は自動化できないのか？」
+## What it does / できること
 
-それは、会計ソフトから出力されるデータがすべて「複式簿記（2次元）」の形をしているからです。経営判断（CVP分析や資金繰り予測）を行うためには、この貸借データを、1次元の時系列データへ「分解・翻訳」する必要があります。
+**Before: Double-entry journal (as exported from accounting software) / 複式仕訳(会計ソフトからの出力)**
 
-Future-Accounting-Commonsは、日本中の会計事務所担当者や経理実務者が集まり、管理会計をスマートに自動化するための「共通データフォーマット（FACフォーマット）」と「変換エンジン」、そして「分析ツール」を共創するコミュニティ**です。
+| Date       | Debit Account       | Credit Account | Amount   |
+|------------|----------------------|------------------|---------:|
+| 2026-04-01 | Advertising Expense  | Cash             | ¥50,000  |
+
+**After: Single-entry data — FAC Format / 単式データ(FACフォーマット)**
+
+| date       | account_large | account_middle       | amount   | cost_type   | cf_type    | dept_original | dept_allocated | status |
+|------------|----------------|------------------------|---------:|-------------|------------|----------------|------------------|--------|
+| 2026-04-01 | 経費 (Expense) | 広告宣伝費 (Advertising) | -50,000  | 変動費 (Variable) | 営業CF (Operating) | Marketing      | Marketing        | 実績 (Actual) |
+
+> **EN:** Revenue and cash inflows are recorded as positive values; expenses and cash outflows are recorded as negative values. This sign convention makes it possible to sum `amount` directly across any dimension (department, account, cost type) without worrying about debit/credit direction.
+>
+> **JA:** 収益・キャッシュインはプラス、費用・キャッシュアウトはマイナスで記録されます。この符号規則により、借方/貸方の方向を意識せず、部門・科目・固変区分など任意の軸で`amount`を直接合計できます。
+
+Future Accounting Commons converts the left into the right — automatically classifying cost type, cash-flow type, and department allocation in a single decomposition step.
+左のデータを右へ、固変区分・CF区分・部門配賦までを含めて一度の分解ステップで自動変換します。
+
+### Allocation example / 配賦の例:`dept_original` vs `dept_allocated`
+
+**EN:** Head-office costs are often booked to a single department in the source system, but need to be allocated across the departments that actually benefited from them for management accounting purposes.
+
+**JA:** 本社費は会計システム上では単一の部門に計上されがちですが、管理会計上は実際に恩恵を受けた各部門へ配賦する必要があります。
+
+**Before allocation / 配賦前**
+
+| date       | account_middle | amount    | dept_original | dept_allocated |
+|------------|------------------|----------:|----------------|------------------|
+| 2026-04-01 | 地代家賃 (Rent)  | -300,000  | Head Office    | Head Office      |
+
+**After running the allocation engine (split across 3 departments by headcount) / 配賦エンジン実行後(人員数比で3部門に按分)**
+
+| date       | account_middle | amount    | dept_original | dept_allocated |
+|------------|------------------|----------:|----------------|------------------|
+| 2026-04-01 | 地代家賃 (Rent)  | -150,000  | Head Office    | Sales            |
+| 2026-04-01 | 地代家賃 (Rent)  | -90,000   | Head Office    | Engineering      |
+| 2026-04-01 | 地代家賃 (Rent)  | -60,000   | Head Office    | Marketing        |
+
+**EN:** `dept_original` always preserves where the cost was originally booked, while `dept_allocated` reflects the result of the allocation logic — so you can trace every allocated row back to its source.
+
+**JA:** `dept_original`は常に元の計上部門を保持し、`dept_allocated`は配賦ロジックの結果を反映します。これにより、配賦後のどの行も元データまで遡ってトレースできます。
 
 ---
+
+## The FAC Format / FACフォーマットについて
+
+**EN:** FAC (Future Accounting Commons) Format is the standardized single-entry data specification at the core of this project. It follows Semantic Versioning, and from v1.0.0 onward, backward compatibility is maintained as a principle — since the fundamental metrics of management accounting have remained largely unchanged for nearly a century, version changes are expected to be additive (new columns), not breaking.
+
+Full specification: [`docs/format.md`](docs/format.md)
+
+**JA:** FAC(Future Accounting Commons)フォーマットは、本プロジェクトの根幹となる標準化された単式データ仕様です。セマンティックバージョニングに従い、v1.0.0以降は原則として後方互換性を維持します。管理会計の基本指標はこの100年近く大きく変わっていないため、バージョン変更は主にカラムの追加(非破壊的変更)を想定しています。
+
+詳細な仕様:[`docs/format.md`](docs/format.md)
+
 ---
 
-## 📊 FACフォーマット仕様 (Ver.0.9.1)
-FAC（Future Accounting Commons）フォーマットは、2次元の複式簿記データを、データ分析に最適化された1次元の時系列データへ分解・統合した共通データモデルです。
-*収益・入金はプラス（正）、費用・出金はマイナス（負）のベクトルとして一元管理されます。*
+## Two-engine architecture / 2エンジン構成
 
-| # | カラム名 | データ型 | 格納する値のイメージ・役割 |
-| :--- | :--- | :--- | :--- |
-| 1 | `date` | 文字列 | `YYYY-MM-DD`（実績発生日、または予算・予測の対象月） |
-| 2 | `account_large` | 文字列 | 科目大分類：売上 / 原価 / 人件費 / 経費 / 営業外 / 資産 / 負債 など |
-| 3 | `account_middle` | 文字列 | 科目中分類：売上高 / 地代家賃 / 売掛金 / 買入金 など |
-| 4 | `account_small` | 文字列 | 科目小分類：補助科目など |
-| 5 | `amount` | 数値 | **PLは管理会計用税抜、CFは税込金額**（正＝入金・収益、負＝出金・費用） |
-| 6 | `cost_type` | 文字列 | 固変区分（CVP分析用）：固定費 / 変動費 / 対象外 |
-| 7 | `cf_type` | 文字列 | CF区分（資金繰り用）：営業CF / 投資CF / 財務CF / 対象外 |
-| 8 | `dept_original` | 文字列 | 会計ソフトから出力された時点の初期部門名。 |
-| 9 | `status` | 文字列 | データ状態：実績 / 予算 / 予測 |
+**EN:** This project develops two kinds of engines, connected by the FAC Format as a common intermediate representation:
 
-### 📌 バージョン管理方針
-- **セマンティックバージョニングの採用（例: Ver.1.0.0）**: カラムの追加・削除や定義の根本的な変更など、互換性を破る場合はメジャーバージョンを上げます。タグの追加など軽微な拡張はマイナーバージョンで対応します。
-- 過去の仕様や変更履歴はすべてGitHubのReleases機能、およびコミット履歴に資産として蓄積します。
+1. **Import engines** — decompose double-entry journal data exported from accounting systems (Money Forward, freee, Yayoi, and others) into FAC Format.
+2. **Analytics engines** — compute management-accounting metrics from FAC-formatted data.
+
+**JA:** 本プロジェクトでは、FACフォーマットを共通の中間表現として、以下2種類のエンジンを開発しています。
+
+1. **インポートエンジン** — マネーフォワード・freee・弥生会計など各種会計システムから出力された複式仕訳データを、FACフォーマットに分解します。
+2. **分析エンジン** — FACフォーマットのデータをもとに、各種管理会計指標を算出します。
+
 ---
 
+## Status / 開発状況
+
+**EN:** Currently in beta. FAC Format is in pre-release design discussion (targeting v1.0.0 at public launch).
+
+**JA:** 現在ベータ版です。FACフォーマットは公開前の設計検討段階(公開時点でv1.0.0を予定)です。
+
+---
+
+## Contributing / コントリビュート
+
+See [`CONTRIBUTING.md`](CONTRIBUTING.md) for how to propose changes, report issues, or open a pull request.
+
+変更提案・Issue報告・プルリクエストの方法は[`CONTRIBUTING.md`](CONTRIBUTING.md)をご覧ください。
+
+---
+
+## License / ライセンス
+
+Apache License 2.0
