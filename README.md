@@ -15,6 +15,7 @@ Future Accounting Commons is a community-driven engine, built in Python, that de
 
 Future Accounting Commonsは、Pythonで開発されたコミュニティ主導のエンジンです。複式簿記データを、管理会計にすぐ使える標準化された単式データへと一発で分解します。
 
+「正しい数字は、企業経営を良くすることができる」
 ---
 
 ## What it does / できること
@@ -35,8 +36,8 @@ Future Accounting Commonsは、Pythonで開発されたコミュニティ主導�
 >
 > **JA:** 収益・キャッシュインはプラス、費用・キャッシュアウトはマイナスで記録されます。この符号規則により、借方/貸方の方向を意識せず、部門・科目・固変区分など任意の軸で`amount`を直接合計できます。
 
-Future Accounting Commons converts the left into the right — automatically classifying cost type, cash-flow type, and department allocation in a single decomposition step.
-左のデータを右へ、固変区分・CF区分・部門配賦までを含めて一度の分解ステップで自動変換します。
+**EN:** Future Accounting Commons converts the left into the right — automatically classifying cost type, cash-flow type, and department allocation in a single decomposition step.
+**JA:** 左のデータを右へ、固変区分・CF区分・部門配賦までを含めて一度の分解ステップで自動変換します。
 
 ### Allocation example / 配賦の例:`dept_original` vs `dept_allocated`
 
