@@ -4,6 +4,8 @@ Thank you for your interest in Future Accounting Commons. This project welcomes 
 
 Future Accounting Commonsにご関心をお寄せいただきありがとうございます。本プロジェクトは、エンジニアだけでなく、会計士・税理士・コンサルタント・企業の経理担当者からの貢献も歓迎しています。コードを書けなくても、プロジェクトの方向性に関わることができます。
 
+[![Discord](https://img.shields.io/discord/1532994257835528323?label=Discord&logo=discord&logoColor=white)](https://discord.gg/WvCYQgm83z)
+
 ---
 
 ## Four kinds of contributions / 4種類の貢献
