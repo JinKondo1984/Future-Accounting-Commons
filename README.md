@@ -1,4 +1,4 @@
-# Future Accounting Commons
+# Future Accounting Commons/未来会計コモンズ
 
 > A Python engine that decomposes double-entry bookkeeping data into single-entry format for management accounting
 > 複式簿記データを、管理会計に適した単式データ(FACフォーマット)に分解するPythonエンジン
