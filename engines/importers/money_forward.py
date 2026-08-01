@@ -112,7 +112,7 @@ def decompose_mf_to_fac(mf_csv_path, mapping_excel_path):
     
     df_cf_standard = pd.merge(df_cf_all, df_cf_map, left_on="account", right_on="相手勘定の科目名", how="left")
     
-    # ↓ここに挿入
+    
     print("\n--- 【診断】cf_typeが対象外・未分類の内訳 ---")
     print(df_cf_standard[df_cf_standard['cf_type'].isin(['対象外']) | df_cf_standard['cf_type'].isna()][['account', 'amount']].groupby('account').sum())
     
