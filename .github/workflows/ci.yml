@@ -33,7 +33,7 @@ jobs:
 
       - name: Check FAC Format spec doc exists
         run: |
-          if [ ! -f docs/format.md ]; then
-            echo "docs/format.md が見つかりません。FACフォーマット仕様書は必須です。"
+          if [ ! -f docs/fac_format.md ]; then
+            echo "docs/fac_format.md が見つかりません。FACフォーマット仕様書は必須です。"
             exit 1
           fi
