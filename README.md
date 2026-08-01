@@ -3,7 +3,7 @@
 > A Python engine that decomposes double-entry bookkeeping data into single-entry format for management accounting
 > 複式簿記データを、管理会計に適した単式データ(FACフォーマット)に分解するPythonエンジン
 > 
-> **Good numbers. Better decisions.** / 正しい数字は、企業経営をもっと良くすることができる。
+> **Good numbers. Better decisions.** / 正しい数字は、より良い意思決定をもたらす。
 
 
 ---
