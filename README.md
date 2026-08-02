@@ -1,12 +1,11 @@
-# Future Accounting Commons/未来会計コモンズ
+# Future Accounting Commons
 
 [![Discord](https://img.shields.io/discord/1532994257835528323?label=Discord&logo=discord&logoColor=white)](https://discord.gg/WvCYQgm83z)
 
 > A Python engine that decomposes double-entry bookkeeping data into single-entry format for management accounting
 > 複式簿記データを、管理会計に適した単式データ(FACフォーマット)に分解するPythonエンジン
-> 
-> **Good numbers. Better decisions.** / 正しい数字は、より良い意思決定をもたらす。
-
+>
+> **Good numbers. Better decisions.** / 正しい数字は、企業経営をもっと良くすることができる。
 
 ---
 
@@ -40,8 +39,8 @@ Future Accounting Commonsは、Pythonで開発されたコミュニティ主導�
 >
 > **JA:** 収益・キャッシュインはプラス、費用・キャッシュアウトはマイナスで記録されます。この符号規則により、借方/貸方の方向を意識せず、部門・科目・固変区分など任意の軸で`amount`を直接合計できます。
 
-**EN:** Future Accounting Commons converts the left into the right — automatically classifying cost type, cash-flow type, and department allocation in a single decomposition step.
-**JA:** 左のデータを右へ、固変区分・CF区分・部門配賦までを含めて一度の分解ステップで自動変換します。
+Future Accounting Commons converts the left into the right — automatically classifying cost type, cash-flow type, and department allocation in a single decomposition step.
+左のデータを右へ、固変区分・CF区分・部門配賦までを含めて一度の分解ステップで自動変換します。
 
 ### Allocation example / 配賦の例:`dept_original` vs `dept_allocated`
 
@@ -69,15 +68,49 @@ Future Accounting Commonsは、Pythonで開発されたコミュニティ主導�
 
 ---
 
+### Why a spreadsheet-friendly design? / なぜExcelフレンドリーな設計なのか?
+
+**EN:** Most accounting and finance professionals are not engineers — their primary tool is
+a spreadsheet, not Python. FAC Format is deliberately designed so that, once your data is
+decomposed into it, **no code is required to analyze it**: every column is a flat, structured
+field with a closed vocabulary (no free text), and the `amount` sign convention means a simple
+`SUM` is all it takes to compute totals.
+
+In practice, this means a FAC-formatted CSV can be dropped directly into a spreadsheet and
+explored with a pivot table — `account_large` / `account_middle` / `account_small` as row
+fields, `dept_allocated` as a filter, `amount` as the value. No macros, no scripts.
+
+This is a deliberate design choice, not an afterthought: the project's roadmap is Python
+first, with lightweight tooling (spreadsheet macros, and eventually a full application) to
+follow as the community grows — but the format itself was built spreadsheet-native from day
+one, so no one is ever locked out for lacking a Python environment.
+
+**JA:** 会計・経理の実務家の多くはエンジニアではなく、日常的に使う主要なツールはExcelです。
+FAC（Future Accounting Commons）フォーマットは、データを一度この標準フォーマットに分解してしまえば、**コードを書かなくても
+分析できる**ように意図的に設計されています。すべてのカラムはフラットで構造化されたフィールド
+であり(自由記述を含まない)、`amount`の符号規則により、単純な`SUM`だけで集計が完結します。
+
+実際に、FACフォーマットのCSVをそのままExcelに読み込み、ピボットテーブルで分析できます。
+`account_large` / `account_middle` / `account_small`を行フィールドに、`dept_allocated`を
+フィルターに、`amount`を値に置くだけです。マクロもスクリプトも不要です。
+
+これは後付けの配慮ではなく、意図的な設計です。プロジェクトのロードマップとしては、まず
+Pythonでの開発を進め、コミュニティの成長に応じて軽量なツール(Excelマクロなど)、そして将来的
+には本格的なアプリケーションへと投資していく計画ですが、フォーマット自体は最初からExcel
+ネイティブに使えるよう設計されています。Python環境がないという理由だけで、誰も締め出さない
+ためです。
+
+---
+
 ## The FAC Format / FACフォーマットについて
 
 **EN:** FAC (Future Accounting Commons) Format is the standardized single-entry data specification at the core of this project. It follows Semantic Versioning, and from v1.0.0 onward, backward compatibility is maintained as a principle — since the fundamental metrics of management accounting have remained largely unchanged for nearly a century, version changes are expected to be additive (new columns), not breaking.
 
-Full specification: [`docs/fac_format.md`](docs/fac_format.md)
+Full specification: [`docs/format.md`](docs/format.md)
 
 **JA:** FAC(Future Accounting Commons)フォーマットは、本プロジェクトの根幹となる標準化された単式データ仕様です。セマンティックバージョニングに従い、v1.0.0以降は原則として後方互換性を維持します。管理会計の基本指標はこの100年近く大きく変わっていないため、バージョン変更は主にカラムの追加(非破壊的変更)を想定しています。
 
-詳細な仕様:[`docs/fac_format.md`](docs/fac_format.md)
+詳細な仕様:[`docs/format.md`](docs/format.md)
 
 ---
 
