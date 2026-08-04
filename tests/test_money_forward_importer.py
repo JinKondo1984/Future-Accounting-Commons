@@ -3,16 +3,17 @@ Tests for the Money Forward -> FAC Format import engine.
 
 これらのテストは実際の会計データを使わず、最小限の合成データを都度生成する。
 - get_tax_divisor: 消費税区分の除数変換ロジック
-- decompose_mf_to_fac: PL/CF分解、部門の左右整合性、dept_allocatedの暫定値、
+- decompose_to_fac: PL/CF分解、部門の左右整合性、dept_allocatedの暫定値、
   account_smallの抽出、を検証する
 """
 import numpy as np
 import pandas as pd
 import pytest
+from engines.exceptions import SourceFileNotFoundError
 
 # 実際の配置場所に合わせてこのimportを調整してください
 # 例: engines/importers/money_forward.py に配置した場合
-from engines.importers.money_forward import get_tax_divisor, decompose_mf_to_fac
+from engines.importers.money_forward import get_tax_divisor, decompose_to_fac
 
 
 # --------------------------------------------------
@@ -38,7 +39,7 @@ def test_get_tax_divisor_non_taxable_defaults_to_one():
 
 
 # --------------------------------------------------
-# decompose_mf_to_fac のテスト用フィクスチャ
+# decompose_to_fac のテスト用フィクスチャ
 # --------------------------------------------------
 
 @pytest.fixture
@@ -98,12 +99,12 @@ def mf_csv_and_mapping(tmp_path):
 
 
 # --------------------------------------------------
-# decompose_mf_to_fac のテスト本体
+# decompose_to_fac のテスト本体
 # --------------------------------------------------
 
 def test_decompose_produces_required_fac_columns(mf_csv_and_mapping):
     csv_path, excel_path = mf_csv_and_mapping
-    df = decompose_mf_to_fac(csv_path, excel_path)
+    df = decompose_to_fac(csv_path, excel_path)
 
     required_columns = [
         "date", "account_large", "account_middle", "account_small", "amount",
@@ -115,7 +116,7 @@ def test_decompose_produces_required_fac_columns(mf_csv_and_mapping):
 
 def test_pl_expense_is_negative_and_tax_excluded(mf_csv_and_mapping):
     csv_path, excel_path = mf_csv_and_mapping
-    df = decompose_mf_to_fac(csv_path, excel_path)
+    df = decompose_to_fac(csv_path, excel_path)
 
     ad_row = df[(df["account_middle"] == "広告宣伝費") & (df["cf_type"] == "対象外")]
     assert len(ad_row) == 1
@@ -132,7 +133,7 @@ def test_cf_department_matches_counter_account_side(mf_csv_and_mapping):
     部門と一致していなければならない。
     """
     csv_path, excel_path = mf_csv_and_mapping
-    df = decompose_mf_to_fac(csv_path, excel_path)
+    df = decompose_to_fac(csv_path, excel_path)
 
     cf_row = df[(df["account_middle"] == "売上高") & (df["cf_type"] == "営業CF")]
     assert len(cf_row) == 1
@@ -148,14 +149,14 @@ def test_dept_allocated_defaults_to_dept_original(mf_csv_and_mapping):
     配賦エンジンが未実行の段階では、dept_allocatedはdept_originalと同値であること。
     """
     csv_path, excel_path = mf_csv_and_mapping
-    df = decompose_mf_to_fac(csv_path, excel_path)
+    df = decompose_to_fac(csv_path, excel_path)
 
     assert (df["dept_allocated"] == df["dept_original"]).all()
 
 
 def test_missing_input_file_raises(tmp_path):
-    with pytest.raises(FileNotFoundError):
-        decompose_mf_to_fac(
+    with pytest.raises(SourceFileNotFoundError):
+        decompose_to_fac(
             str(tmp_path / "does_not_exist.csv"),
             str(tmp_path / "does_not_exist.xlsx"),
         )
