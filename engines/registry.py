@@ -14,12 +14,13 @@ engines/registry.py
   (GUI側のコードは変更不要)
 """
 
-from engines.importers import money_forward
+from engines.importers import freee, money_forward
 
 # 対応済みインポーターのモジュール一覧。
 # 新しいソフトに対応したら、ここに追記するだけでよい。
 _IMPORTER_MODULES = [
     money_forward,
+    freee,
 ]
 
 
