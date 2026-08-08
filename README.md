@@ -130,9 +130,10 @@ Full specification: [`docs/fac_format.md`](docs/fac_format.md)
 
 ## Status / 開発状況
 
-**EN:** Currently in beta. FAC Format is in pre-release design discussion (targeting v1.0.0 at public launch).
-
-**JA:** 現在ベータ版です。FACフォーマットは公開前の設計検討段階(公開時点でv1.0.0を予定)です。
+**JA:**   現在、下記の開発が完了しました。
+・FACフォーマット分解エンジン（fac_importer）マネーフォワード、freee、弥生会計　に対応
+・FACフォーマットから試算表を作成する集計エンジン（crosstab）実装。
+・FACフォーマットからさらに部門配賦をするための部門配賦エンジン（dept_allocation）実装。  
 
 ---
 
